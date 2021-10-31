@@ -1,0 +1,85 @@
+﻿@model BikeShop.WebUI.Models.HomeIndexViewModel
+@using PagedList.Core.Mvc;
+@using PagedList.Core;
+@using BikeShop.WebUI.Infrastructure
+@{
+    ViewData["Title"] = "Products Index";
+@* var routeData = new Dictionary<string, string>
+{
+        {"page", Model.Products.PageNumber.ToString() },
+        {"category", Model.CurrentCategory }
+    };*@
+var routeData = new Dictionary<string, string>
+{
+        {"page", Model.PageInfo.PageNumber.ToString() },
+        {"category", Model.CurrentCategory }
+    };
+}
+@*<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />*@
+<div class="container">
+    <h1>Products</h1>
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col">
+            <p>
+                @*<a asp-action="Create">Create New</a>*@
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Model)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Year)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Year)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </td>
+                            <td>
+                                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            @*<pager class="pager-container" list="@Model.Products" asp-action="Index" asp-controller="Home"
+                   options="@PagedListRenderOptions.Bootstrap4Full" asp-all-route-data="@routeData"></pager>*@
+            @Html.PageLinks(Model.PageInfo, b => Url.Action("Index",
+                new { page = b, manufacturer = Model.CurrentCategory }))
+        </div>
+    </div>
+</div>

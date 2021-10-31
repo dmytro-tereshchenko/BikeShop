@@ -7,8 +7,8 @@ namespace BikeShop.Domain
 {
     public class BikeShopContext:DbContext
     {
-        DbSet<Product> Products { get; set; }
-        DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public BikeShopContext(DbContextOptions<BikeShopContext> options) :base(options)
         {
             //Database.EnsureDeleted();

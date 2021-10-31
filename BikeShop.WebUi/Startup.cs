@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BikeShop.WebUi
+namespace BikeShop.WebUI
 {
     public class Startup
     {
@@ -25,7 +25,6 @@ namespace BikeShop.WebUi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
             string connStr = Configuration.GetConnectionString("SqlConnStr");
             services.AddDbContext<BikeShopContext>(options => options.UseSqlServer(connStr));
             services.AddControllersWithViews();
@@ -40,11 +39,10 @@ namespace BikeShop.WebUi
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -54,7 +52,32 @@ namespace BikeShop.WebUi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "root",
+                    pattern: "",
+                    defaults: new { controller = "Home", action = "Index", category = (string)null, page = 1 });
+                endpoints.MapControllerRoute(
+                    name: "page",
+                    pattern: "page{page}",
+                    defaults: new { controller = "Home", action = "Index", category = (string)null },
+                    constraints: new { page = @"\d+" });
+                endpoints.MapControllerRoute(
+                    name: "categories",
+                    pattern: "{category}",
+                    defaults: new { controller = "Home", action = "Index", page = 1 });
+                endpoints.MapControllerRoute(
+                    name: "standart",
+                    pattern: "{category}/page{page}",
+                    defaults: new { controller = "Home", action = "Index", category = (string)null },
+                    constraints: new { page = @"\d+" });
+                endpoints.MapControllerRoute(
+                    name: null,
+                    pattern: "{manufacturer}/CarsPage{page}",
+                    new { controller = "Home", action = "Index" },
+                    new { page = @"\d+" });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
