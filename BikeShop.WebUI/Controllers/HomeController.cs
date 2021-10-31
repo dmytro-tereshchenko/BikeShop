@@ -38,7 +38,7 @@ namespace BikeShop.WebUI.Controllers
             return View(new HomeIndexViewModel { Products = products.ToPagedList(pageNumber, pageSize), CurrentCategory = category });*/
 
             int pageSize = 3;
-            IEnumerable<Product> products = await _context.Products.ToListAsync();
+            IEnumerable<Product> products = await _context.Products.Include(p=>p.Category).ToListAsync();
             PageInfo pageInfo = new PageInfo
             {
                 PageNumber = page ?? 1,

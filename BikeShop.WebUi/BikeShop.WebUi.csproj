@@ -13,4 +13,8 @@
     <ProjectReference Include="..\BikeShop.Domain\BikeShop.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\NavCategories\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<string>
+    <ul class="nav flex-lg-column flex-row">
+        <li class="nav-item">
+            <s1 class="nav-link text-secondary">@ViewData["Header"]</s1>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-secondary" asp-area="" asp-controller="" asp-action="Index">All</a>
+        </li>
+        @foreach (string man in Model)
+        {
+        <li class="nav-item">
+            @Html.RouteLink(man, new { action = "Index", category = man, page = "1" }, new { @class = "nav-link text-secondary" })
+        </li>
+        }
+    </ul>

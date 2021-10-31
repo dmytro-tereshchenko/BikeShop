@@ -19,8 +19,8 @@ var routeData = new Dictionary<string, string>
 <div class="container">
     <h1>Products</h1>
     <div class="row">
-        <div class="col-3">
-
+        <div class="col-2">
+            @Html.RenderAction("Menu", "NavCategories")
         </div>
         <div class="col">
             <p>
@@ -79,7 +79,7 @@ var routeData = new Dictionary<string, string>
             @*<pager class="pager-container" list="@Model.Products" asp-action="Index" asp-controller="Home"
                    options="@PagedListRenderOptions.Bootstrap4Full" asp-all-route-data="@routeData"></pager>*@
             @Html.PageLinks(Model.PageInfo, b => Url.Action("Index",
-                new { page = b, manufacturer = Model.CurrentCategory }))
+                new { page = b, category = Model.CurrentCategory }))
         </div>
     </div>
 </div>
