@@ -11,10 +11,18 @@ namespace BikeShop.WebUI.Controllers
     {
         private readonly BikeShopContext _context;
         public NavCategoriesController(BikeShopContext context) => this._context = context;
-        public PartialViewResult Menu(string category = null)
+        public PartialViewResult Menu(string currentController = "Home", string category = null)
         {
             IEnumerable<Category> categories = _context.Categories.ToList();
             ViewData["Header"] = "Categories";
+            ViewData["currentController"] = currentController;
+            return PartialView(categories.Select(c => c.Name));
+        }
+        public PartialViewResult MenuCart(string returnUrl, string category = null)
+        {
+            IEnumerable<Category> categories = _context.Categories.ToList();
+            ViewData["Header"] = "Categories";
+            ViewData["ReturnUrl"] = returnUrl;
             return PartialView(categories.Select(c => c.Name));
         }
     }

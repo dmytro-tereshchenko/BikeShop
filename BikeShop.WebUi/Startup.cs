@@ -1,4 +1,5 @@
 using BikeShop.Domain;
+using BikeShop.WebUI.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +28,11 @@ namespace BikeShop.WebUI
         {
             string connStr = Configuration.GetConnectionString("SqlConnStr");
             services.AddDbContext<BikeShopContext>(options => options.UseSqlServer(connStr));
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            options.ModelBinderProviders.Insert(0, new CartModelBinderProvider()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +52,7 @@ namespace BikeShop.WebUI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -75,6 +80,14 @@ namespace BikeShop.WebUI
                     pattern: "{manufacturer}/CarsPage{page}",
                     new { controller = "Home", action = "Index" },
                     new { page = @"\d+" });
+                endpoints.MapControllerRoute(
+                    name: "adminProduct",
+                    pattern: "admin/Product/{action}/{id?}",
+                    defaults: new { controller = "Product", action = "Index" });
+            endpoints.MapControllerRoute(
+                    name: "adminCategories",
+                    pattern: "admin/Categories/{action}/{id?}",
+                    defaults: new { controller = "Categories", action = "Index"});
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

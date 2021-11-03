@@ -1,0 +1,40 @@
+﻿@using BikeShop.WebUI.Models
+@model CartIndexViewModel
+
+<div class="container">
+    <h2>Your Cart</h2>
+    <div class="row">
+        <div class="col-2">
+            @Html.RenderAction("MenuCart", "NavCategories", new { returnUrl = Model.ReturnUrl })
+        </div>
+        <div class="col-10">
+            @foreach (CartItem item in Model.Cart.CartItems)
+            {
+                <div class="card text-dark bg-light mb-3 mx-auto" style="max-width: 30rem;">
+                    <div class="card-header">@item.Product.Model</div>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Product.Description</h5>
+                        <p class="card-text">Amount: @item.Quantity</p>
+                        <p class="card-text">Price: @item.Product.Price $</p>
+                        <p class="card-text">Total price: @(item.Product.Price * @item.Quantity) $</p>
+                        <form asp-action="RempoveFromCart" asp-controller="Cart" method="post">
+                            <input type="hidden" name="id" value="@item.Product.Id" />
+                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                            <input type="submit" value="Remove" class="btn btn-warning btn-sm float-end" />
+                        </form>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="offset-5 col col-7">
+                    <span>Total: </span>
+                    <span>@Model.Cart.CalculateTotalValue() $</span>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center">
+                <a class="btn btn-primary" href="@Model.ReturnUrl">Continue purchase</a>
+            </div>
+        </div>
+    </div>
+</div>

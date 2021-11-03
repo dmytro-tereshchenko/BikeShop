@@ -1,0 +1,75 @@
+﻿@model BikeShop.WebUI.Models.HomeIndexViewModel
+@using BikeShop.WebUI.Infrastructure
+@{
+    ViewData["Title"] = "Products Index";
+    var routeData = new Dictionary<string, string>
+    {
+        {"page", Model.PageInfo.PageNumber.ToString() },
+        {"category", Model.CurrentCategory }
+    };
+}
+<div class="container">
+    <h1>Products</h1>
+    <div class="row">
+        <div class="col-2">
+            @Html.RenderAction("Menu", "NavCategories", new { currentController = "Product" })
+        </div>
+        <div class="col">
+            <p>
+                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Model)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Year)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Products.FirstOrDefault().Category)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Model)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Year)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td style="min-width:100px;">
+                                @Html.DisplayFor(modelItem => item.Price) $
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </td>
+                            <td style="min-width:240px;">
+                                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            @Html.PageLinks(Model.PageInfo, b => Url.Action("Index",
+                new { page = b, category = Model.CurrentCategory }))
+        </div>
+    </div>
+</div>

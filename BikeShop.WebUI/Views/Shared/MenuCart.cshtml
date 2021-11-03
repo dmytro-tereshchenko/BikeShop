@@ -1,0 +1,23 @@
+﻿@model IEnumerable<string>
+    <ul class="nav flex-lg-column flex-row">
+        <li class="nav-item">
+            <div class="text-center text-secondary m-2">@ViewData["Header"]</div>
+        </li>
+        <li class="nav-item">
+            <form asp-action="Index" asp-controller="Cart" method="get">
+                <input type="hidden" name="page" value="1" />
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                <input type="submit" value="All" class="btn btn-outline-secondary btn-block" />
+            </form>
+        </li>
+        @foreach (string man in Model)
+        {
+        <li class="nav-item">
+            <form asp-action="Index" asp-controller="Cart" method="get">
+                <input type="hidden" name="category" value="@man" />
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                <input type="submit" value="@man" class="btn btn-outline-secondary btn-block" />
+            </form>
+        </li>
+        }
+    </ul>
