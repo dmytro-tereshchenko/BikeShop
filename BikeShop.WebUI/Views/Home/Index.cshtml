@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Products Index";
     var routeData = new Dictionary<string, string>
-    {
+{
         {"page", Model.PageInfo.PageNumber.ToString() },
         {"category", Model.CurrentCategory }
     };
@@ -15,31 +15,42 @@
             @Html.RenderAction("Menu", "NavCategories")
         </div>
         <div class="col">
-                    @foreach (var item in Model.Products)
-                    {
-                        <div class="card text-center">
-                            <div class="card-header">
-                                @item.Model
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">@item.Category.Name</h5>
-                                <p class="card-text">@item.Description</p>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-6">Price: @item.Price $</div>
-                                        <div class="col-6" style="min-width:200px;">
-                                            <a class="btn btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                                            <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-inline-block">
-                                                <input type="hidden" name="id" value="@item.Id" />
-                                                <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
-                                                <input type="submit" value="Add to cart" class="btn btn-success btn-sm float-end" />
-                                            </form>
+            <div class="row row-cols-1 row-cols-md-3 justify-content-evenly">
+                @foreach (var item in Model.Products)
+                {
+                <div class="col m-2">
+                    <div class="card text-center h-100">
+                        <div class="card-header">
+                            @item.Model
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <img src="@item.ImageFiles.FirstOrDefault().Path" alt="Image" height="100" class="mx-auto d-block" />
+                                </div>
+                                <div class="col">
+                                    <h5 class="card-title">@item.Category.Name</h5>
+                                    <p class="card-text">@item.Description</p>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col">Price: @item.Price $</div>
+                                            <div class="col" style="min-width:200px;">
+                                                <a class="btn btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-inline-block">
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                                                    <input type="submit" value="Add to cart" class="btn btn-success btn-sm float-end" />
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    }
+                    </div>
+                </div>
+                }
+            </div>
             <br />
             @Html.PageLinks(Model.PageInfo, b => Url.Action("Index",
                 new { page = b, category = Model.CurrentCategory }))

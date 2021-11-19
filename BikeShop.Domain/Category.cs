@@ -12,5 +12,10 @@ namespace BikeShop.Domain
         [Required]
         [StringLength(30, MinimumLength = 3, ErrorMessage = "Length of name have to be between 3 and 30")]
         public string Name { get; set; }
+        public virtual List<Product> Products { get; set; } = new List<Product>();
+        /*public Category()
+        {
+            Products = new List<Product>();
+        }*/
     }
 }

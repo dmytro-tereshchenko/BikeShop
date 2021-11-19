@@ -24,7 +24,7 @@ namespace BikeShop.WebUI.Controllers
         public async Task<IActionResult> Index(string category, int? page)
         {
             int pageSize = 3;
-            IEnumerable<Product> products = await _context.Products.Include(p=>p.Category).ToListAsync();
+            IEnumerable<Product> products = await _context.Products.Include(p=>p.Category).Include(p => p.ImageFiles).ToListAsync();
             PageInfo pageInfo = new PageInfo
             {
                 PageNumber = page ?? 1,
@@ -57,6 +57,7 @@ namespace BikeShop.WebUI.Controllers
 
             var product = await _context.Products
                 .Include(c => c.Category)
+                .Include(p => p.ImageFiles)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
