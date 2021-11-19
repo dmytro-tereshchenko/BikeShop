@@ -44,6 +44,25 @@ namespace BikeShop.WebUI.Controllers
             CartIndexViewModel viewModel = new CartIndexViewModel { Cart = cart, ReturnUrl = returnUrl };
             return View(viewModel);
         }
-
+        public ActionResult IncrementProduct(Cart cart, int id, string returnUrl)
+        {
+            Product product = cart.CartItems.FirstOrDefault(c => c.Product.Id == id)?.Product;
+            if (product != null)
+            {
+                cart.AddItem(product, 1);
+                HttpContext.Session.Set<Cart>("Cart", cart);
+            }
+            return RedirectToAction("Index", new { returnUrl });
+        }
+        public ActionResult DecrementProduct(Cart cart, int id, string returnUrl)
+        {
+            Product product = cart.CartItems.FirstOrDefault(c => c.Product.Id == id)?.Product;
+            if (product != null)
+            {
+                cart.AddItem(product, -1);
+                HttpContext.Session.Set<Cart>("Cart", cart);
+            }
+            return RedirectToAction("Index", new { returnUrl });
+        }
     }
 }

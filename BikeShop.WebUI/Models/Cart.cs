@@ -13,7 +13,11 @@ namespace BikeShop.WebUI.Models
         {
             CartItem cartItem = cartItems.FirstOrDefault(g => g.Product.Id == product.Id);
             if (cartItem != null)
+            {
                 cartItem.Quantity += quantity;
+                if (cartItem.Quantity == 0)
+                    RemoveItem(cartItem.Product);
+            }
             else
                 cartItems.Add(new CartItem { Product = product, Quantity = quantity });
         }
