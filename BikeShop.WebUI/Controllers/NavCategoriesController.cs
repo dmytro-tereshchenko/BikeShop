@@ -1,4 +1,5 @@
 ﻿using BikeShop.Domain;
+using BikeShop.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,12 @@ namespace BikeShop.WebUI.Controllers
             ViewData["currentController"] = currentController;
             return PartialView(categories.Select(c => c.Name));
         }
-        public PartialViewResult MenuCart(string returnUrl, string category = null)
+        public PartialViewResult MenuCart(Cart cart, string returnUrl, string category = null)
         {
-            IEnumerable<Category> categories = _context.Categories.ToList();
+            IEnumerable<string> categories = cart.CartItems.Select(i => i.Product.Category.Name).Distinct();
             ViewData["Header"] = "Categories";
             ViewData["ReturnUrl"] = returnUrl;
-            return PartialView(categories.Select(c => c.Name));
+            return PartialView(categories);
         }
     }
 }

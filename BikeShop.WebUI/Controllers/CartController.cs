@@ -20,7 +20,10 @@ namespace BikeShop.WebUI.Controllers
         }
         public async Task<RedirectToActionResult> AddToCart(Cart cart, int id, string returnUrl)
         {
-            Product product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(c => c.Id == id);
+            Product product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.ImageFiles)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (product != null)
             {
                 cart.AddItem(product, 1);
@@ -30,7 +33,7 @@ namespace BikeShop.WebUI.Controllers
         }
         public async Task<RedirectToActionResult> RempoveFromCart(Cart cart, int id, string returnUrl)
         {
-            Product product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(c => c.Id == id);
+            Product product = await _context.Products.FirstOrDefaultAsync(c => c.Id == id);
             if (product != null)
             {
                 cart.RemoveItem(product);

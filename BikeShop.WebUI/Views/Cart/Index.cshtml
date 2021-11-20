@@ -10,31 +10,38 @@
         <div class="col-9 col-md-10">
             @foreach (CartItem item in Model.Cart.CartItems)
             {
-                <div class="card text-dark bg-light mb-3 mx-auto" style="max-width: 30rem;">
+                <div class="card text-dark mb-3 mx-auto" style="max-width: 30rem;">
                     <div class="card-header">@item.Product.Model</div>
                     <div class="card-body">
-                        <h5 class="card-title m-1">@item.Product.Description</h5>
-                        <div class="row m-1 align-items-center">
-                            <div class="card-text">Amount: </div>
-                            <form asp-action="DecrementProduct" asp-controller="Cart" method="post">
-                                <input type="hidden" name="id" value="@item.Product.Id" />
-                                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-                                <input type="submit" value="-" class="btn btn-sm btn-outline-primary m-2" />
-                            </form>
-                            <div class="card-text">@item.Quantity</div>
-                            <form asp-action="IncrementProduct" asp-controller="Cart" method="post">
-                                <input type="hidden" name="id" value="@item.Product.Id" />
-                                <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-                                <input type="submit" value="+" class="btn btn-sm btn-outline-primary m-2" />
-                            </form>
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h5 class="card-title m-1">@item.Product.Description</h5>
+                                <div class="row m-1 align-items-center">
+                                    <div class="card-text">Amount: </div>
+                                    <form asp-action="DecrementProduct" asp-controller="Cart" method="post">
+                                        <input type="hidden" name="id" value="@item.Product.Id" />
+                                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                        <input type="submit" value="-" class="btn btn-sm btn-outline-primary m-2" />
+                                    </form>
+                                    <div class="card-text">@item.Quantity</div>
+                                    <form asp-action="IncrementProduct" asp-controller="Cart" method="post">
+                                        <input type="hidden" name="id" value="@item.Product.Id" />
+                                        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                        <input type="submit" value="+" class="btn btn-sm btn-outline-primary m-2" />
+                                    </form>
+                                </div>
+                                <p class="card-text m-1">Price: @item.Product.Price $</p>
+                                <p class="card-text m-1">Total price: @(item.Product.Price * @item.Quantity) $</p>
+                                <form asp-action="RempoveFromCart" asp-controller="Cart" method="post">
+                                    <input type="hidden" name="id" value="@item.Product.Id" />
+                                    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                                    <input type="submit" value="Remove" class="btn btn-warning btn-sm float-end m-1" />
+                                </form>
+                            </div>
+                            <div class="col">
+                                <img src="@item.Product.ImageFiles.FirstOrDefault().Path" alt="Image" height="140" class="mx-auto d-block" />
+                            </div>
                         </div>
-                        <p class="card-text m-1">Price: @item.Product.Price $</p>
-                        <p class="card-text m-1">Total price: @(item.Product.Price * @item.Quantity) $</p>
-                        <form asp-action="RempoveFromCart" asp-controller="Cart" method="post">
-                            <input type="hidden" name="id" value="@item.Product.Id" />
-                            <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
-                            <input type="submit" value="Remove" class="btn btn-warning btn-sm float-end m-1" />
-                        </form>
                     </div>
                 </div>
             }
