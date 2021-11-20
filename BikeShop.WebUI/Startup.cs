@@ -1,5 +1,6 @@
 using BikeShop.Domain;
 using BikeShop.WebUI.Infrastructure;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,11 @@ namespace BikeShop.WebUI
             services.AddDbContext<BikeShopContext>(options => options.UseSqlServer(connStr));
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
             services.AddControllersWithViews();
             services.AddControllersWithViews(options =>
             options.ModelBinderProviders.Insert(0, new CartModelBinderProvider()));
@@ -53,6 +59,8 @@ namespace BikeShop.WebUI
 
             app.UseRouting();
             app.UseSession();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

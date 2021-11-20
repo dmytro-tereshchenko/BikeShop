@@ -10,6 +10,8 @@ namespace BikeShop.Domain
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ImageFile> ImageFiles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public BikeShopContext(DbContextOptions<BikeShopContext> options) :base(options)
         {
             //Database.EnsureDeleted();
