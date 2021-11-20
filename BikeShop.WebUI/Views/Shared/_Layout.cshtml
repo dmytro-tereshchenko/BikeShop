@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]BikeShop</title>
+    <title>@ViewData["Title"] BikeShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -12,31 +12,71 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BikeShop</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse1" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Main page</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products (admin)</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories (admin)</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>
-                    </ul>
+                <div class="navbar-collapse1 navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <div class="d-flex flex-grow-1 justify-content-between align-content-center">
+                        <ul class="navbar-nav col flex-grow-1">
+                            <li class="nav-item align-self-center">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Main page</a>
+                            </li>
+                            <li class="nav-item align-self-center">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav col-auto">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item ms-auto p-2 align-self-center">
+                                    <div>@User.Identity.Name</div>
+                                </li>
+                                <li class="nav-item align-self-center">
+                                    <form method="post" asp-controller="Account" asp-action="Logout">
+                                        <input class="btn btn-sm btn-outline-secondary" type="submit" value="Logout" />
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item ms-auto align-self-center">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                </li>
+                                <li class="nav-item align-self-center">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Registration</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
-    </header>
+        @if (User.IsInRole("admin"))
+        {
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <div class="navbar-brand">Admin panel</div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse2" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse2 navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav col flex-grow-1">
+                            <li class="nav-item align-self-center">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
+                            </li>
+                            <li class="nav-item align-self-center">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        }
+        </header>
     <div class="container">
-            @RenderBody()
+        @RenderBody()
     </div>
 
     <footer class="border-top footer text-muted">
