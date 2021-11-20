@@ -1,4 +1,4 @@
-﻿@model BikeShop.Domain.Product
+﻿@model BikeShop.WebUI.Models.ProductViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,34 +9,58 @@
 <h4>Product</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Product.Id" />
             <div class="form-group">
-                <label asp-for="Model" class="control-label"></label>
-                <input asp-for="Model" class="form-control" />
-                <span asp-validation-for="Model" class="text-danger"></span>
+                <label asp-for="Product.Model" class="control-label"></label>
+                <input asp-for="Product.Model" class="form-control" />
+                <span asp-validation-for="Product.Model" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                <input asp-for="Year" class="form-control" />
-                <span asp-validation-for="Year" class="text-danger"></span>
+                <label asp-for="Product.Year" class="control-label"></label>
+                <input asp-for="Product.Year" class="form-control" />
+                <span asp-validation-for="Product.Year" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="Product.Description" class="control-label"></label>
+                <input asp-for="Product.Description" class="form-control" />
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="Product.Price" class="control-label"></label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                <label asp-for="Product.CategoryId" class="control-label"></label>
+                <select asp-for="Product.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UploadedFiles" class="control-label"></label>
+                @for (int i = 1; i <= Model.Product.ImageFiles.Count; i++)
+                {
+                    <div class="border mb-1 p-1">
+                        <img src="@Model.Product.ImageFiles[i-1].Path" alt="image" height="100" />
+                        <label for="@("file"+i)" class="btn btn-sm btn-outline-success">Select Image</label>
+                        <input type="file" id="@("file"+i)" name="UploadedFiles" accept="image/*" style="visibility: hidden; width: 0px;" />
+                        <span></span>
+                        <input type="hidden" name="files" value="@Model.Product.ImageFiles[i - 1].Path" />
+                    </div>
+                }
+                @if (Model.Product.ImageFiles.Count == 0)
+                {
+                    <div class="border mb-1 p-1">
+                        <img src="#" alt="image" height="100" style="display:none;" />
+                        <label for="file1" class="btn btn-sm btn-outline-success">Select Image</label>
+                        <input type="file" id="file1" name="UploadedFiles" accept="image/*" style="visibility: hidden; width: 0px;" />
+                        <span></span>
+                        <input type="hidden" name="files" />
+                    </div>
+                }
+                <button id="addImage" class="btn btn-sm btn-outline-success m-1">Add image</button>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -51,4 +75,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("ImageFormScripts");}
 }

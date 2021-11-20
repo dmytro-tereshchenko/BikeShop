@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Views\NavCategories\" />
+    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
 </Project>
