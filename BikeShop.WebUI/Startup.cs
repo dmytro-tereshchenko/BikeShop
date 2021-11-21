@@ -34,7 +34,7 @@ namespace BikeShop.WebUI
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/login");
                 });
             services.AddControllersWithViews();
             services.AddControllersWithViews(options =>
@@ -84,18 +84,20 @@ namespace BikeShop.WebUI
                     defaults: new { controller = "Home", action = "Index", category = (string)null },
                     constraints: new { page = @"\d+" });
                 endpoints.MapControllerRoute(
-                    name: null,
-                    pattern: "{manufacturer}/CarsPage{page}",
-                    new { controller = "Home", action = "Index" },
-                    new { page = @"\d+" });
+                   name: "login",
+                   pattern: "login",
+                   defaults: new { controller = "Account", action = "Login" });
                 endpoints.MapControllerRoute(
-                    name: "adminProduct",
-                    pattern: "admin/Product/{action}/{id?}",
-                    defaults: new { controller = "Product", action = "Index" });
-            endpoints.MapControllerRoute(
-                    name: "adminCategories",
-                    pattern: "admin/Categories/{action}/{id?}",
-                    defaults: new { controller = "Categories", action = "Index"});
+                   name: "register",
+                   pattern: "register",
+                   defaults: new { controller = "Account", action = "Register" });
+                endpoints.MapControllerRoute(
+                   name: "logout",
+                   pattern: "logout",
+                   defaults: new { controller = "Account", action = "Logout" });
+                endpoints.MapControllerRoute(
+                    name: "adminPanel",
+                    pattern: "admin/{controller:regex(^P.*|^Cat.*|^A.*|^R.*)=Product}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
