@@ -1,5 +1,4 @@
 # BikeShop
-Оnline store
 A small website for an online store with goods for bicycles and accessories.
 
 Technologies: C#, ASP.Net Core MVC, EF Core (MS SQL Server), Bootstrap 5.
