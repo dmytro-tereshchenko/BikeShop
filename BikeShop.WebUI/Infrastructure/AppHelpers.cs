@@ -14,6 +14,8 @@ namespace BikeShop.WebUI.Infrastructure
     {
         public static HtmlString PageLinks(this IHtmlHelper html, PageInfo pageInfo, Func<int, string> pageUrl)
         {
+            TagBuilder outer = new TagBuilder("div");
+            outer.AddCssClass("d-flex justify-content-center m-1");
             TagBuilder result = new TagBuilder("div");
             for (int i = 1; i <= pageInfo.TotalPages; i++)
             {
@@ -28,8 +30,9 @@ namespace BikeShop.WebUI.Infrastructure
                 result.InnerHtml.AppendHtml(tag);
             }
             result.AddCssClass("btn-group");
+            outer.InnerHtml.AppendHtml(result);
             var writer = new System.IO.StringWriter();
-            result.WriteTo(writer, HtmlEncoder.Default);
+            outer.WriteTo(writer, HtmlEncoder.Default);
             return new HtmlString(writer.ToString());
         }
     }

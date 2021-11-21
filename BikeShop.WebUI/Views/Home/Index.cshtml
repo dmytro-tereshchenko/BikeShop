@@ -2,17 +2,12 @@
 @using BikeShop.WebUI.Infrastructure
 @{
     ViewData["Title"] = "Products Index";
-    var routeData = new Dictionary<string, string>
-{
-        {"page", Model.PageInfo.PageNumber.ToString() },
-        {"category", Model.CurrentCategory }
-    };
 }
 <div class="container">
     <h1>Products</h1>
     <div class="row">
         <div class="col-2">
-            @Html.RenderAction("Menu", "NavCategories")
+            @Html.RenderAction("Menu", "Nav")
         </div>
         <div class="col">
             <div class="row row-cols-1 row-cols-md-3 justify-content-evenly">

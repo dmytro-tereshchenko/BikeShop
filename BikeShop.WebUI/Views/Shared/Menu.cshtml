@@ -8,8 +8,8 @@
         </li>
         @foreach (string man in Model)
         {
-        <li class="nav-item">
-            @Html.RouteLink(man, new { action = "Index", category = man, page = "1" }, new { @class = "nav-link text-secondary" })
-        </li>
+    <li class="nav-item">
+        <a class="nav-link text-secondary" asp-area="" asp-controller="@ViewData["currentController"]" asp-action="Index" asp-route-category="@man" asp-route-page="1">@man</a>
+    </li>
         }
     </ul>

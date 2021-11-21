@@ -1,0 +1,52 @@
+﻿@model BikeShop.WebUI.Models.AccountIndexViewModel
+@using BikeShop.WebUI.Infrastructure
+@{
+    ViewData["Title"] = "Users Index";
+}
+<div class="container">
+    <h1>Users</h1>
+    <div class="row">
+        <div class="col-2">
+            @Html.RenderAction("MenuRoles", "Nav", new { currentController = "Account" })
+        </div>
+        <div class="col">
+            <p>
+                <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Role)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Role.Name)
+                            </td>
+                            <td style="min-width:240px;">
+                                <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            @Html.PageLinks(Model.PageInfo, b => Url.Action("Index",
+                new { page = b, role = Model.CurrentRole }))
+        </div>
+    </div>
+</div>

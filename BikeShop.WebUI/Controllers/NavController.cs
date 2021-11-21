@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace BikeShop.WebUI.Controllers
 {
-    public class NavCategoriesController : Controller
+    public class NavController : Controller
     {
         private readonly BikeShopContext _context;
-        public NavCategoriesController(BikeShopContext context) => this._context = context;
+        public NavController(BikeShopContext context) => this._context = context;
         public PartialViewResult Menu(string currentController = "Home", string category = null)
         {
             IEnumerable<Category> categories = _context.Categories.ToList();
@@ -25,6 +25,13 @@ namespace BikeShop.WebUI.Controllers
             ViewData["Header"] = "Categories";
             ViewData["ReturnUrl"] = returnUrl;
             return PartialView(categories);
+        }
+        public PartialViewResult MenuRoles(string currentController = "Account", string role = null)
+        {
+            IEnumerable<Role> roles = _context.Roles.ToList();
+            ViewData["Header"] = "Roles";
+            ViewData["currentController"] = currentController;
+            return PartialView(roles.Select(c => c.Name));
         }
     }
 }

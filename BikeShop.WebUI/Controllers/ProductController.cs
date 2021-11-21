@@ -174,7 +174,6 @@ namespace BikeShop.WebUI.Controllers
                         oldProduct.Year = product.Year;
 
                         _context.Update(oldProduct);
-                        int k = 12;
                         try
                         {
                             await _context.SaveChangesAsync();

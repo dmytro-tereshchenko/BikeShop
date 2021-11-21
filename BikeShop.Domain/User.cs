@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -17,6 +18,7 @@ namespace BikeShop.Domain
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [DisplayName("Role")]
         public int? RoleId { get; set; }
         [ForeignKey("RoleId")]
         public virtual Role Role { get; set; }

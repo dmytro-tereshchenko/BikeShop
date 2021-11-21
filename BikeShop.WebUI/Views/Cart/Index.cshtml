@@ -5,7 +5,7 @@
     <h2>Your Cart</h2>
     <div class="row">
         <div class="col-3 col-md-2">
-            @Html.RenderAction("MenuCart", "NavCategories", new { returnUrl = Model.ReturnUrl })
+            @Html.RenderAction("MenuCart", "Nav", new { returnUrl = Model.ReturnUrl })
         </div>
         <div class="col-9 col-md-10">
             @foreach (CartItem item in Model.Cart.CartItems)
@@ -53,7 +53,7 @@
             </div>
             <hr />
             <div class="text-center">
-                <a class="btn btn-primary" href="@Model.ReturnUrl">Continue purchase</a>
+                <a class="btn btn-primary m-2" href="@Model.ReturnUrl">Continue purchase</a>
             </div>
         </div>
     </div>

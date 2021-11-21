@@ -1,0 +1,15 @@
+﻿@model IEnumerable<string>
+<ul class="nav flex-lg-column flex-row">
+    <li class="nav-item">
+        <s1 class="nav-link text-secondary m-1">@ViewData["Header"]</s1>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-secondary" asp-area="" asp-controller="@ViewData["currentController"]" asp-action="Index">All</a>
+    </li>
+    @foreach (string rol in Model)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-secondary" asp-area="" asp-controller="@ViewData["currentController"]" asp-action="Index" asp-route-role="@rol" asp-route-page="1">@rol</a>
+        </li>
+    }
+</ul>
